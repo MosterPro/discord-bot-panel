@@ -1,1 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Bot de Discord</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-discord"></i> Panel de Control del Bot</h1>
+            <div class="status-indicator">
+                <span id="status-dot" class="status-dot disconnected"></span>
+                <span id="status-text">Desconectado</span>
+            </div>
+        </header>
 
+        <main>
+            <section class="card token-section">
+                <h2><i class="fas fa-key"></i> Configuración del Bot</h2>
+                <div class="form-group">
+                    <label for="bot-token">Token del Bot:</label>
+                    <div class="input-group">
+                        <input type="password" id="bot-token" placeholder="Ingresa el token de tu bot">
+                        <button id="connect-btn" class="btn primary">
+                            <i class="fas fa-plug"></i> Conectar
+                        </button>
+                    </div>
+                </div>
+                <div id="bot-info" class="bot-info hidden">
+                    <img id="bot-avatar" src="" alt="Avatar del bot">
+                    <div>
+                        <h3 id="bot-name">Nombre del Bot</h3>
+                        <p id="bot-id">ID: </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid">
+                <section class="card">
+                    <h2><i class="fas fa-server"></i> Servidores</h2>
+                    <div class="actions">
+                        <button id="fetch-guilds" class="btn secondary">
+                            <i class="fas fa-sync-alt"></i> Obtener Servidores
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="guild-select">Seleccionar Servidor:</label>
+                        <select id="guild-select">
+                            <option value="">-- Selecciona un servidor --</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2><i class="fas fa-hashtag"></i> Canales</h2>
+                    <div class="actions">
+                        <button id="fetch-channels" class="btn secondary" disabled>
+                            <i class="fas fa-sync-alt"></i> Obtener Canales
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="channel-select">Seleccionar Canal:</label>
+                        <select id="channel-select">
+                            <option value="">-- Selecciona un canal --</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+
+            <section class="card">
+                <h2><i class="fas fa-comment"></i> Enviar Mensaje</h2>
+                <div class="form-group">
+                    <label for="message-content">Contenido del Mensaje:</label>
+                    <textarea id="message-content" placeholder="Escribe tu mensaje aquí..."></textarea>
+                </div>
+                <div class="actions">
+                    <button id="send-message" class="btn primary" disabled>
+                        <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                    </button>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2><i class="fas fa-users"></i> Miembros del Servidor</h2>
+                <div class="actions">
+                    <button id="fetch-members" class="btn secondary" disabled>
+                        <i class="fas fa-sync-alt"></i> Obtener Miembros
+                    </button>
+                </div>
+                <div id="members-list" class="members-list">
+                    <p>Selecciona un servidor para ver sus miembros</p>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2><i class="fas fa-history"></i> Historial de Acciones</h2>
+                <div id="log-container" class="log-container">
+                    <div class="log-entry">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-message">Panel de control iniciado</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Panel de Control para Bot de Discord &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+  </html>
