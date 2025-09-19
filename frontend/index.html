@@ -8,109 +8,190 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fab fa-discord"></i> Panel de Control del Bot</h1>
-            <div class="status-indicator">
-                <span id="status-dot" class="status-dot disconnected"></span>
-                <span id="status-text">Desconectado</span>
+    <!-- Login Screen -->
+    <div class="login-container" id="login-screen">
+        <div class="login-card">
+            <div class="logo">
+                <i class="fab fa-discord"></i>
             </div>
+            <h1>Panel de Control del Bot</h1>
+            <p>Ingresa el token de tu bot para comenzar</p>
+            
+            <div class="form-group">
+                <label for="bot-token">Token del Bot</label>
+                <div class="input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="bot-token" class="form-control" placeholder="Ingresa el token de tu bot">
+                </div>
+            </div>
+            
+            <button id="login-btn" class="btn btn-primary">
+                <span id="login-text">Conectar Bot</span>
+                <span id="login-spinner" class="spinner" style="display: none;"></span>
+            </button>
+            
+            <div id="login-error" class="notification error" style="display: none; margin-top: 20px;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="error-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <img id="header-bot-avatar" src="" alt="Avatar del bot" class="bot-avatar">
+                <div class="bot-info">
+                    <h2 id="header-bot-name">Nombre del Bot</h2>
+                    <p id="header-bot-id">ID: </p>
+                </div>
+            </div>
+            
+            <div class="status-indicator" id="status-indicator">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">Conectado</span>
+            </div>
+            
+            <button id="logout-btn" class="logout-btn" title="Cerrar sesión">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
         </header>
 
-        <main>
-            <section class="card token-section">
-                <h2><i class="fas fa-key"></i> Configuración del Bot</h2>
-                <div class="form-group">
-                    <label for="bot-token">Token del Bot:</label>
-                    <div class="input-group">
-                        <input type="password" id="bot-token" placeholder="Ingresa el token de tu bot">
-                        <button id="connect-btn" class="btn primary">
-                            <i class="fas fa-plug"></i> Conectar
-                        </button>
-                    </div>
-                </div>
-                <div id="bot-info" class="bot-info hidden">
-                    <img id="bot-avatar" src="" alt="Avatar del bot">
-                    <div>
-                        <h3 id="bot-name">Nombre del Bot</h3>
-                        <p id="bot-id">ID: </p>
-                    </div>
-                </div>
-            </section>
-
+        <!-- Main Content -->
+        <main class="main-content">
+            <h2 class="section-title">
+                <i class="fas fa-tachometer-alt"></i>
+                Panel de Control
+            </h2>
+            
             <div class="grid">
-                <section class="card">
-                    <h2><i class="fas fa-server"></i> Servidores</h2>
-                    <div class="actions">
-                        <button id="fetch-guilds" class="btn secondary">
-                            <i class="fas fa-sync-alt"></i> Obtener Servidores
-                        </button>
+                <!-- Guilds Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> Servidores</h3>
+                        <div class="card-actions">
+                            <button id="fetch-guilds" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="guild-select">Seleccionar Servidor:</label>
-                        <select id="guild-select">
-                            <option value="">-- Selecciona un servidor --</option>
-                        </select>
+                    <div class="card-body">
+                        <div class="select-container">
+                            <label for="guild-select">Seleccionar Servidor</label>
+                            <select id="guild-select">
+                                <option value="">-- Cargando servidores --</option>
+                            </select>
+                        </div>
                     </div>
-                </section>
+                    <div class="card-footer">
+                        <small id="guilds-count" class="text-muted">0 servidores encontrados</small>
+                    </div>
+                </div>
 
-                <section class="card">
-                    <h2><i class="fas fa-hashtag"></i> Canales</h2>
-                    <div class="actions">
-                        <button id="fetch-channels" class="btn secondary" disabled>
-                            <i class="fas fa-sync-alt"></i> Obtener Canales
-                        </button>
+                <!-- Channels Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hashtag"></i> Canales</h3>
+                        <div class="card-actions">
+                            <button id="fetch-channels" class="btn btn-secondary" disabled>
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="channel-select">Seleccionar Canal:</label>
-                        <select id="channel-select">
-                            <option value="">-- Selecciona un canal --</option>
-                        </select>
+                    <div class="card-body">
+                        <div class="select-container">
+                            <label for="channel-select">Seleccionar Canal</label>
+                            <select id="channel-select">
+                                <option value="">-- Selecciona un servidor primero --</option>
+                            </select>
+                        </div>
                     </div>
-                </section>
+                    <div class="card-footer">
+                        <small id="channels-count" class="text-muted">0 canales disponibles</small>
+                    </div>
+                </div>
             </div>
 
-            <section class="card">
-                <h2><i class="fas fa-comment"></i> Enviar Mensaje</h2>
-                <div class="form-group">
-                    <label for="message-content">Contenido del Mensaje:</label>
-                    <textarea id="message-content" placeholder="Escribe tu mensaje aquí..."></textarea>
+            <!-- Channel Messages Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-comments"></i> Mensajes del Canal</h3>
+                    <div class="card-actions">
+                        <button id="refresh-messages" class="refresh-btn" disabled>
+                            <i class="fas fa-sync-alt"></i> Refrescar
+                        </button>
+                    </div>
                 </div>
-                <div class="actions">
-                    <button id="send-message" class="btn primary" disabled>
+                <div class="card-body">
+                    <div id="messages-container" class="messages-container">
+                        <div class="empty-messages">
+                            <i class="fas fa-comment-slash"></i>
+                            <p>Selecciona un canal para ver sus mensajes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-comment"></i> Enviar Mensaje</h3>
+                </div>
+                <div class="card-body">
+                    <div class="input-container">
+                        <label for="message-content">Contenido del Mensaje</label>
+                        <textarea id="message-content" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="send-message" class="btn btn-primary" disabled>
                         <i class="fas fa-paper-plane"></i> Enviar Mensaje
                     </button>
                 </div>
-            </section>
+            </div>
 
-            <section class="card">
-                <h2><i class="fas fa-users"></i> Miembros del Servidor</h2>
-                <div class="actions">
-                    <button id="fetch-members" class="btn secondary" disabled>
-                        <i class="fas fa-sync-alt"></i> Obtener Miembros
-                    </button>
-                </div>
-                <div id="members-list" class="members-list">
-                    <p>Selecciona un servidor para ver sus miembros</p>
-                </div>
-            </section>
-
-            <section class="card">
-                <h2><i class="fas fa-history"></i> Historial de Acciones</h2>
-                <div id="log-container" class="log-container">
-                    <div class="log-entry">
-                        <span class="log-time">--:--:--</span>
-                        <span class="log-message">Panel de control iniciado</span>
+            <!-- Members Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Miembros del Servidor</h3>
+                    <div class="card-actions">
+                        <button id="fetch-members" class="btn btn-secondary" disabled>
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
                 </div>
-            </section>
-        </main>
+                <div class="card-body">
+                    <div id="members-list" class="members-list">
+                        <p class="text-center text-muted">Selecciona un servidor para ver sus miembros</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small id="members-count" class="text-muted">0 miembros</small>
+                </div>
+            </div>
 
-        <footer>
-            <p>Panel de Control para Bot de Discord &copy; 2023</p>
-        </footer>
+            <!-- Log Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-history"></i> Historial de Acciones</h3>
+                </div>
+                <div class="card-body">
+                    <div id="log-container" class="log-container">
+                        <div class="log-entry">
+                            <span class="log-time">--:--:--</span>
+                            <span class="log-message log-info">Panel de control iniciado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
 
     <script src="script.js"></script>
 </body>
-  </html>
+    </html>
